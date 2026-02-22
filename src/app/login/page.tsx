@@ -45,8 +45,8 @@ export default function LoginPage() {
             <span className="text-4xl animate-pulse-glow inline-block">🧚</span>
             <div className="absolute inset-0 blur-xl bg-violet-500/20 rounded-full animate-breathe" />
           </div>
-          <h1 className="text-xl font-semibold text-white mt-3 tracking-tight">Navi Dashboard</h1>
-          <p className="text-xs text-white/30 mt-1 tracking-wide uppercase">Personal AI Assistant</p>
+          <h1 className="text-xl font-semibold text-gray-900 dark:text-white mt-3 tracking-tight">Navi Dashboard</h1>
+          <p className="text-xs text-gray-600 dark:text-white/30 mt-1 tracking-wide uppercase">Personal AI Assistant</p>
         </div>
 
         <div className="space-y-4">
@@ -56,7 +56,7 @@ export default function LoginPage() {
               placeholder="Enter access token"
               value={token}
               onChange={(e) => { setToken(e.target.value); setError(""); }}
-              className="w-full bg-white/[0.03] border border-white/[0.08] rounded-lg px-4 py-3 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.05] transition-all duration-300 focus:shadow-[0_0_20px_rgba(139,92,246,0.1)]"
+              className="w-full bg-gray-100 dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.08] rounded-lg px-4 py-3 text-gray-900 dark:text-white text-sm placeholder:text-gray-500 dark:placeholder:text-white/20 focus:outline-none focus:border-violet-500/50 focus:bg-gray-50 dark:focus:bg-white/[0.05] transition-all duration-300 focus:shadow-[0_0_20px_rgba(139,92,246,0.1)]"
             />
           </div>
 

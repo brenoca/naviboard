@@ -37,14 +37,14 @@ export default function UsagePage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-semibold flex items-center gap-3 tracking-tight">
-            <div className="p-2 rounded-xl bg-gradient-to-br from-violet-500/10 to-blue-500/10 border border-white/[0.06]">
+            <div className="p-2 rounded-xl bg-gradient-to-br from-violet-500/10 to-blue-500/10 border border-gray-200/80 dark:border-white/[0.06]">
               <BarChart3 className="w-5 h-5 text-violet-400" />
             </div>
             LLM Usage
           </h1>
-          <p className="text-sm text-white/30 mt-1 ml-12">Token consumption and model activity</p>
+          <p className="text-sm text-gray-600 dark:text-white/30 mt-1 ml-12">Token consumption and model activity</p>
         </div>
-        <button onClick={load} className="p-2.5 rounded-xl hover:bg-white/[0.05] text-white/30 hover:text-white/60 transition-all duration-200">
+        <button onClick={load} className="p-2.5 rounded-xl hover:bg-gray-100 dark:bg-white/[0.05] text-gray-600 dark:text-white/30 hover:text-gray-500 dark:text-white/60 transition-all duration-200">
           <RefreshCw className="w-4 h-4" />
         </button>
       </div>
@@ -56,7 +56,7 @@ export default function UsagePage() {
       ) : !data ? (
         <div className="glass-card p-12 text-center">
           <div className="text-3xl mb-3">📊</div>
-          <p className="text-white/40 text-sm">No usage data</p>
+          <p className="text-gray-600 dark:text-white/40 text-sm">No usage data</p>
         </div>
       ) : (
         <>
@@ -69,12 +69,12 @@ export default function UsagePage() {
             ].map((stat, i) => (
               <div key={i} className={`glass-card p-6 animate-fade-in-up`} style={{ animationDelay: `${i * 80}ms` }}>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] text-white/25 uppercase tracking-widest font-medium">{stat.label}</span>
+                  <span className="text-[10px] text-gray-600 dark:text-white/25 uppercase tracking-widest font-medium">{stat.label}</span>
                   <div className={`p-1.5 rounded-lg bg-gradient-to-br ${stat.gradient}`}>
-                    <stat.icon className="w-3.5 h-3.5 text-white/40" />
+                    <stat.icon className="w-3.5 h-3.5 text-gray-600 dark:text-white/40" />
                   </div>
                 </div>
-                <div className="text-3xl font-semibold text-white/90 animate-count-up">{stat.value.toLocaleString()}</div>
+                <div className="text-3xl font-semibold text-gray-800 dark:text-white/90 animate-count-up">{stat.value.toLocaleString()}</div>
               </div>
             ))}
           </div>
@@ -82,7 +82,7 @@ export default function UsagePage() {
           {/* Chart */}
           {chartData.length > 0 && (
             <div className="glass-card p-6 mb-6 animate-fade-in-up" style={{ animationDelay: "240ms" }}>
-              <h2 className="text-xs font-medium uppercase tracking-widest text-white/30 mb-6">Requests by Model</h2>
+              <h2 className="text-xs font-medium uppercase tracking-widest text-gray-600 dark:text-white/30 mb-6">Requests by Model</h2>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={chartData}>
@@ -112,24 +112,24 @@ export default function UsagePage() {
           {/* Table */}
           <div className="glass-card overflow-hidden animate-fade-in-up" style={{ animationDelay: "320ms" }}>
             <table className="w-full text-sm">
-              <thead><tr className="border-b border-white/[0.06]">
-                <th className="text-left p-4 text-[10px] uppercase tracking-widest text-white/25 font-medium">Model</th>
-                <th className="text-right p-4 text-[10px] uppercase tracking-widest text-white/25 font-medium">Requests</th>
-                <th className="text-right p-4 text-[10px] uppercase tracking-widest text-white/25 font-medium">Tokens In</th>
-                <th className="text-right p-4 text-[10px] uppercase tracking-widest text-white/25 font-medium">Tokens Out</th>
+              <thead><tr className="border-b border-gray-200/80 dark:border-white/[0.06]">
+                <th className="text-left p-4 text-[10px] uppercase tracking-widest text-gray-600 dark:text-white/25 font-medium">Model</th>
+                <th className="text-right p-4 text-[10px] uppercase tracking-widest text-gray-600 dark:text-white/25 font-medium">Requests</th>
+                <th className="text-right p-4 text-[10px] uppercase tracking-widest text-gray-600 dark:text-white/25 font-medium">Tokens In</th>
+                <th className="text-right p-4 text-[10px] uppercase tracking-widest text-gray-600 dark:text-white/25 font-medium">Tokens Out</th>
               </tr></thead>
               <tbody>
                 {chartData.map((d, i) => (
-                  <tr key={i} className="border-b border-white/[0.03] hover:bg-white/[0.02] transition-colors">
+                  <tr key={i} className="border-b border-gray-200 dark:border-white/[0.03] hover:bg-gray-50 dark:bg-white/[0.02] transition-colors">
                     <td className="p-4 font-mono text-xs">
                       <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full" style={{ background: COLORS[i % COLORS.length] }} />
                         {d.model}
                       </div>
                     </td>
-                    <td className="p-4 text-right text-white/70">{d.requests.toLocaleString()}</td>
-                    <td className="p-4 text-right text-white/40">{d.tokensIn.toLocaleString()}</td>
-                    <td className="p-4 text-right text-white/40">{d.tokensOut.toLocaleString()}</td>
+                    <td className="p-4 text-right text-gray-600 dark:text-white/70">{d.requests.toLocaleString()}</td>
+                    <td className="p-4 text-right text-gray-600 dark:text-white/40">{d.tokensIn.toLocaleString()}</td>
+                    <td className="p-4 text-right text-gray-600 dark:text-white/40">{d.tokensOut.toLocaleString()}</td>
                   </tr>
                 ))}
               </tbody>

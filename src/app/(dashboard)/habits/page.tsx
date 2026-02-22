@@ -179,7 +179,7 @@ export default function HabitsPage() {
             </div>
             Habits
           </h1>
-          <p className="text-white/30 text-sm mt-1">Build consistency, track your streaks</p>
+          <p className="text-gray-600 dark:text-white/30 text-sm mt-1">Build consistency, track your streaks</p>
         </div>
         <button onClick={() => { resetForm(); setShowAdd(true); }}
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 text-white text-sm font-medium transition-all duration-300 shadow-lg shadow-violet-500/20">
@@ -189,45 +189,45 @@ export default function HabitsPage() {
 
       {/* Stats Row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div className="glass-card rounded-2xl p-4 border border-white/[0.06]">
+        <div className="glass-card rounded-2xl p-4 border border-gray-200/80 dark:border-white/[0.06]">
           <div className="flex items-center gap-2 mb-1">
             <Calendar className="w-3.5 h-3.5 text-violet-400" />
-            <span className="text-[10px] text-white/30 uppercase tracking-wider">Today</span>
+            <span className="text-[10px] text-gray-600 dark:text-white/30 uppercase tracking-wider">Today</span>
           </div>
-          <div className="text-2xl font-bold">{todayCompleted}<span className="text-sm text-white/20">/{totalActive}</span></div>
+          <div className="text-2xl font-bold">{todayCompleted}<span className="text-sm text-gray-500 dark:text-white/20">/{totalActive}</span></div>
         </div>
-        <div className="glass-card rounded-2xl p-4 border border-white/[0.06]">
+        <div className="glass-card rounded-2xl p-4 border border-gray-200/80 dark:border-white/[0.06]">
           <div className="flex items-center gap-2 mb-1">
             <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="text-[10px] text-white/30 uppercase tracking-wider">Completion</span>
+            <span className="text-[10px] text-gray-600 dark:text-white/30 uppercase tracking-wider">Completion</span>
           </div>
-          <div className="text-2xl font-bold">{totalActive > 0 ? Math.round((todayCompleted / totalActive) * 100) : 0}<span className="text-sm text-white/20">%</span></div>
+          <div className="text-2xl font-bold">{totalActive > 0 ? Math.round((todayCompleted / totalActive) * 100) : 0}<span className="text-sm text-gray-500 dark:text-white/20">%</span></div>
         </div>
-        <div className="glass-card rounded-2xl p-4 border border-white/[0.06]">
+        <div className="glass-card rounded-2xl p-4 border border-gray-200/80 dark:border-white/[0.06]">
           <div className="flex items-center gap-2 mb-1">
             <Flame className="w-3.5 h-3.5 text-amber-400" />
-            <span className="text-[10px] text-white/30 uppercase tracking-wider">Best Streak</span>
+            <span className="text-[10px] text-gray-600 dark:text-white/30 uppercase tracking-wider">Best Streak</span>
           </div>
-          <div className="text-2xl font-bold">{bestStreak}<span className="text-sm text-white/20"> days</span></div>
+          <div className="text-2xl font-bold">{bestStreak}<span className="text-sm text-gray-500 dark:text-white/20"> days</span></div>
         </div>
-        <div className="glass-card rounded-2xl p-4 border border-white/[0.06]">
+        <div className="glass-card rounded-2xl p-4 border border-gray-200/80 dark:border-white/[0.06]">
           <div className="flex items-center gap-2 mb-1">
             <Target className="w-3.5 h-3.5 text-blue-400" />
-            <span className="text-[10px] text-white/30 uppercase tracking-wider">Active</span>
+            <span className="text-[10px] text-gray-600 dark:text-white/30 uppercase tracking-wider">Active</span>
           </div>
-          <div className="text-2xl font-bold">{totalActive}<span className="text-sm text-white/20"> habits</span></div>
+          <div className="text-2xl font-bold">{totalActive}<span className="text-sm text-gray-500 dark:text-white/20"> habits</span></div>
         </div>
       </div>
 
       {/* Week Navigation */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <button onClick={() => setWeekOffset(weekOffset - 1)} className="p-1.5 rounded-lg glass-card hover:bg-white/[0.06] transition-colors">
-            <ChevronLeft className="w-4 h-4 text-white/40" />
+          <button onClick={() => setWeekOffset(weekOffset - 1)} className="p-1.5 rounded-lg glass-card hover:bg-gray-100 dark:bg-white/[0.06] transition-colors">
+            <ChevronLeft className="w-4 h-4 text-gray-600 dark:text-white/40" />
           </button>
           <button onClick={() => setWeekOffset(weekOffset + 1)} disabled={weekOffset >= 0}
-            className="p-1.5 rounded-lg glass-card hover:bg-white/[0.06] transition-colors disabled:opacity-20">
-            <ChevronRight className="w-4 h-4 text-white/40" />
+            className="p-1.5 rounded-lg glass-card hover:bg-gray-100 dark:bg-white/[0.06] transition-colors disabled:opacity-20">
+            <ChevronRight className="w-4 h-4 text-gray-600 dark:text-white/40" />
           </button>
           {weekOffset !== 0 && (
             <button onClick={() => setWeekOffset(0)} className="text-xs text-violet-400 hover:text-violet-300 transition-colors">This week</button>
@@ -240,9 +240,9 @@ export default function HabitsPage() {
           {[...Array(3)].map((_, i) => <div key={i} className="glass-card rounded-2xl h-16 shimmer" />)}
         </div>
       ) : habits.filter(h => !h.archived).length === 0 ? (
-        <div className="glass-card rounded-2xl p-12 text-center border border-white/[0.06]">
-          <Target className="w-10 h-10 text-white/10 mx-auto mb-3" />
-          <p className="text-white/30 text-sm">No habits yet</p>
+        <div className="glass-card rounded-2xl p-12 text-center border border-gray-200/80 dark:border-white/[0.06]">
+          <Target className="w-10 h-10 text-gray-500 dark:text-white/10 mx-auto mb-3" />
+          <p className="text-gray-600 dark:text-white/30 text-sm">No habits yet</p>
           <button onClick={() => { resetForm(); setShowAdd(true); }}
             className="mt-3 text-xs text-violet-400 hover:text-violet-300 transition-colors">+ Create your first habit</button>
         </div>
@@ -254,7 +254,7 @@ export default function HabitsPage() {
             return (
               <div key={cat}>
                 {categories.length > 1 && (
-                  <div className="text-[10px] text-white/20 uppercase tracking-wider mb-3 px-1">{cat}</div>
+                  <div className="text-[10px] text-gray-500 dark:text-white/20 uppercase tracking-wider mb-3 px-1">{cat}</div>
                 )}
 
                 {/* Column headers — day labels */}
@@ -263,9 +263,9 @@ export default function HabitsPage() {
                     const date = new Date(d + "T12:00:00");
                     const isToday = d === today;
                     return (
-                      <div key={d} className={`flex-1 text-center text-[10px] ${isToday ? "text-violet-400 font-medium" : "text-white/20"}`}>
+                      <div key={d} className={`flex-1 text-center text-[10px] ${isToday ? "text-violet-400 font-medium" : "text-gray-500 dark:text-white/20"}`}>
                         {date.toLocaleDateString("en-US", { weekday: "short" }).slice(0, 2)}
-                        <div className={`text-[9px] ${isToday ? "text-violet-400/60" : "text-white/10"}`}>{date.getDate()}</div>
+                        <div className={`text-[9px] ${isToday ? "text-violet-400/60" : "text-gray-500 dark:text-white/10"}`}>{date.getDate()}</div>
                       </div>
                     );
                   })}
@@ -278,7 +278,7 @@ export default function HabitsPage() {
                     const streak = getStreak(habit.id, logs);
                     const rate = getCompletionRate(habit.id, logs, 30);
                     return (
-                      <div key={habit.id} className="glass-card rounded-xl border border-white/[0.06] p-3 flex items-center gap-3 group transition-all duration-300 hover:border-white/[0.1]"
+                      <div key={habit.id} className="glass-card rounded-xl border border-gray-200/80 dark:border-white/[0.06] p-3 flex items-center gap-3 group transition-all duration-300 hover:border-gray-300 dark:border-white/[0.1]"
                         style={{ animationDelay: `${i * 40}ms` }}>
                         {/* Habit info */}
                         <div className="w-[250px] shrink-0 flex items-center gap-3">
@@ -293,12 +293,12 @@ export default function HabitsPage() {
                                   🔥 {streak}d
                                 </span>
                               )}
-                              <span className="text-[10px] text-white/20">{rate}% (30d)</span>
+                              <span className="text-[10px] text-gray-500 dark:text-white/20">{rate}% (30d)</span>
                             </div>
                           </div>
                           <button onClick={() => startEdit(habit)}
-                            className="p-1 rounded-lg opacity-0 group-hover:opacity-100 hover:bg-white/5 transition-all ml-auto">
-                            <Settings2 className="w-3 h-3 text-white/30" />
+                            className="p-1 rounded-lg opacity-0 group-hover:opacity-100 hover:bg-gray-100 dark:bg-white/5 transition-all ml-auto">
+                            <Settings2 className="w-3 h-3 text-gray-600 dark:text-white/30" />
                           </button>
                         </div>
 
@@ -314,8 +314,8 @@ export default function HabitsPage() {
                                     logged
                                       ? `${c.check} text-white shadow-lg shadow-${habit.color}-500/20 scale-100`
                                       : isToday
-                                        ? `bg-white/[0.06] border border-dashed ${c.border} hover:${c.bg} hover:scale-110`
-                                        : "bg-white/[0.03] hover:bg-white/[0.06] hover:scale-110"
+                                        ? `bg-gray-100 dark:bg-white/[0.06] border border-dashed ${c.border} hover:${c.bg} hover:scale-110`
+                                        : "bg-gray-50 dark:bg-white/[0.03] hover:bg-gray-100 dark:bg-white/[0.06] hover:scale-110"
                                   }`}>
                                   {logged && <span className="text-xs">✓</span>}
                                 </button>
@@ -335,30 +335,30 @@ export default function HabitsPage() {
 
       {/* Add Habit Modal */}
       {(showAdd || editHabit) && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center animate-fade-in"
+        <div className="fixed inset-0 bg-black/30 dark:bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center animate-fade-in"
           onClick={() => { setShowAdd(false); setEditHabit(null); resetForm(); }}>
           <div onClick={e => e.stopPropagation()}
-            className="glass-card border border-white/[0.08] rounded-2xl p-6 w-full max-w-md space-y-5 animate-slide-up shadow-2xl shadow-black/50">
+            className="glass-card border border-gray-200 dark:border-white/[0.08] rounded-2xl p-6 w-full max-w-md space-y-5 animate-slide-up shadow-2xl shadow-black/50">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">{editHabit ? "Edit Habit" : "New Habit"}</h2>
               <button onClick={() => { setShowAdd(false); setEditHabit(null); resetForm(); }}
-                className="p-1 rounded-lg hover:bg-white/5 transition-colors">
-                <X className="w-4 h-4 text-white/40" />
+                className="p-1 rounded-lg hover:bg-gray-100 dark:bg-white/5 transition-colors">
+                <X className="w-4 h-4 text-gray-600 dark:text-white/40" />
               </button>
             </div>
 
             {/* Name */}
             <input value={formName} onChange={e => setFormName(e.target.value)} placeholder="Habit name..."
-              className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-violet-500/50 transition-colors" autoFocus />
+              className="w-full bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.08] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-violet-500/50 transition-colors" autoFocus />
 
             {/* Icon picker */}
             <div>
-              <label className="text-[10px] text-white/30 uppercase tracking-wider mb-2 block">Icon</label>
+              <label className="text-[10px] text-gray-600 dark:text-white/30 uppercase tracking-wider mb-2 block">Icon</label>
               <div className="flex flex-wrap gap-2">
                 {ICONS.map(ic => (
                   <button key={ic} onClick={() => setFormIcon(ic)}
                     className={`w-9 h-9 rounded-lg flex items-center justify-center text-lg transition-all duration-200 ${
-                      formIcon === ic ? "bg-violet-500/20 border border-violet-500/30 scale-110" : "bg-white/[0.03] hover:bg-white/[0.06]"
+                      formIcon === ic ? "bg-violet-500/20 border border-violet-500/30 scale-110" : "bg-gray-50 dark:bg-white/[0.03] hover:bg-gray-100 dark:bg-white/[0.06]"
                     }`}>{ic}</button>
                 ))}
               </div>
@@ -366,12 +366,12 @@ export default function HabitsPage() {
 
             {/* Color picker */}
             <div>
-              <label className="text-[10px] text-white/30 uppercase tracking-wider mb-2 block">Color</label>
+              <label className="text-[10px] text-gray-600 dark:text-white/30 uppercase tracking-wider mb-2 block">Color</label>
               <div className="flex gap-2">
                 {Object.keys(COLORS).map(c => (
                   <button key={c} onClick={() => setFormColor(c)}
                     className={`w-8 h-8 rounded-full ${COLORS[c].check} transition-all duration-200 ${
-                      formColor === c ? "ring-2 ring-offset-2 ring-offset-[#0a0a0f] " + COLORS[c].ring + " scale-110" : "opacity-50 hover:opacity-80"
+                      formColor === c ? "ring-2 ring-offset-2 ring-offset-white dark:ring-offset-[#0a0a0f] " + COLORS[c].ring + " scale-110" : "opacity-50 hover:opacity-80"
                     }`} />
                 ))}
               </div>
@@ -379,18 +379,18 @@ export default function HabitsPage() {
 
             {/* Category */}
             <input value={formCategory} onChange={e => setFormCategory(e.target.value)} placeholder="Category (optional)"
-              className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-violet-500/50 transition-colors" />
+              className="w-full bg-gray-50 dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.08] rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-violet-500/50 transition-colors" />
 
             {/* Actions */}
             <div className="flex gap-2 justify-between">
               {editHabit && (
                 <div className="flex gap-2">
                   <button onClick={() => { archiveHabit(editHabit.id); setEditHabit(null); resetForm(); }}
-                    className="flex items-center gap-1.5 px-3 py-2 text-xs rounded-xl bg-white/[0.03] text-white/40 hover:text-white/60 transition-colors">
+                    className="flex items-center gap-1.5 px-3 py-2 text-xs rounded-xl bg-gray-50 dark:bg-white/[0.03] text-gray-600 dark:text-white/40 hover:text-gray-500 dark:text-white/60 transition-colors">
                     <Archive className="w-3.5 h-3.5" /> Archive
                   </button>
                   <button onClick={() => deleteHabit(editHabit.id)}
-                    className="flex items-center gap-1.5 px-3 py-2 text-xs rounded-xl bg-red-500/10 text-red-400/60 hover:text-red-400 transition-colors">
+                    className="flex items-center gap-1.5 px-3 py-2 text-xs rounded-xl bg-red-50 dark:bg-red-500/10 text-red-400/60 hover:text-red-400 transition-colors">
                     <Trash2 className="w-3.5 h-3.5" /> Delete
                   </button>
                 </div>
