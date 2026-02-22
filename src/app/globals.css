@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 10% 2%;
+    --foreground: 0 0% 95%;
+    --card: 240 6% 6%;
+    --card-foreground: 0 0% 95%;
+    --popover: 240 6% 6%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 250 90% 65%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 5% 12%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 240 5% 12%;
+    --muted-foreground: 240 5% 55%;
+    --accent: 240 5% 12%;
+    --accent-foreground: 0 0% 95%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 95%;
+    --border: 240 5% 12%;
+    --input: 240 5% 12%;
+    --ring: 250 90% 65%;
+    --radius: 0.75rem;
+    --glow-primary: 250 90% 65%;
+    --glow-secondary: 280 80% 60%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; }
+}
+
+/* ═══ Animations ═══ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 8px rgba(139, 92, 246, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.6); }
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══ Utility Classes ═══ */
+.animate-fade-in { animation: fadeIn 0.5s ease-out; }
+.animate-fade-in-up { animation: fadeInUp 0.4s ease-out; }
+.animate-slide-up { animation: slideUp 0.5s ease-out; }
+.animate-slide-in-right { animation: slideInRight 0.4s ease-out; }
+.animate-pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
+.animate-breathe { animation: breathe 3s ease-in-out infinite; }
+.animate-shake { animation: shake 0.5s ease-in-out; }
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-count-up { animation: countUp 0.6s ease-out; }
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* ═══ Glass Card ═══ */
+.glass-card {
+  @apply relative rounded-xl border border-white/[0.06] bg-white/[0.03] backdrop-blur-xl;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.03) inset, 0 4px 24px rgba(0,0,0,0.3);
+}
+.glass-card:hover {
+  @apply border-white/[0.1];
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.05) inset, 0 8px 32px rgba(0,0,0,0.4);
+}
+
+/* ═══ Gradient Border ═══ */
+.gradient-border {
+  @apply relative rounded-xl;
+}
+.gradient-border::before {
+  content: '';
+  @apply absolute inset-0 rounded-xl p-px;
+  background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(59,130,246,0.1), rgba(139,92,246,0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ═══ Glow Effects ═══ */
+.glow-sm { box-shadow: 0 0 12px rgba(139,92,246,0.15); }
+.glow-md { box-shadow: 0 0 24px rgba(139,92,246,0.2); }
+.glow-lg { box-shadow: 0 0 40px rgba(139,92,246,0.25); }
+
+/* ═══ Background ═══ */
+body {
+  background: #050507;
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(139,92,246,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(59,130,246,0.05) 0%, transparent 50%);
+}
+
+/* ═══ Scrollbar ═══ */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+
+/* ═══ Markdown ═══ */
+.markdown-body { @apply leading-relaxed; }
+.markdown-body h1 { @apply text-2xl font-bold mb-4 mt-8 text-white tracking-tight; }
+.markdown-body h2 { @apply text-xl font-semibold mb-3 mt-6 text-white/95 tracking-tight; }
+.markdown-body h3 { @apply text-lg font-medium mb-2 mt-5 text-white/90; }
+.markdown-body p { @apply mb-4 leading-relaxed text-white/70; }
+.markdown-body ul { @apply list-disc pl-6 mb-4 text-white/70; }
+.markdown-body ol { @apply list-decimal pl-6 mb-4 text-white/70; }
+.markdown-body li { @apply mb-1.5; }
+.markdown-body code {
+  @apply px-1.5 py-0.5 rounded-md text-sm font-mono;
+  background: rgba(139,92,246,0.1);
+  color: rgba(199,167,255,0.9);
+}
+.markdown-body pre {
+  @apply rounded-xl mb-4 overflow-x-auto border border-white/[0.06];
+  background: rgba(0,0,0,0.4);
+  padding: 1.25rem;
+}
+.markdown-body pre code { @apply bg-transparent p-0 text-white/70; }
+.markdown-body a { @apply text-violet-400 hover:text-violet-300 transition-colors underline decoration-violet-400/30 underline-offset-2; }
+.markdown-body blockquote {
+  @apply pl-4 italic text-white/50 my-4;
+  border-left: 2px solid rgba(139,92,246,0.4);
+}
+.markdown-body hr { @apply border-white/[0.06] my-8; }
+.markdown-body table { @apply w-full mb-4; }
+.markdown-body th { @apply text-left p-3 border-b border-white/10 font-medium text-xs uppercase tracking-wider text-white/50; }
+.markdown-body td { @apply p-3 border-b border-white/[0.04] text-white/60; }
+
+/* ═══ Selection ═══ */
+::selection {
+  background: rgba(139,92,246,0.3);
+  color: white;
+}
