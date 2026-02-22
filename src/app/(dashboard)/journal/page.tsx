@@ -172,7 +172,7 @@ export default function JournalPage() {
             </div>
             Journal
           </h1>
-          <p className="text-white/30 text-sm mt-1">Daily reflections and thoughts</p>
+          <p className="text-gray-600 dark:text-white/30 text-sm mt-1">Daily reflections and thoughts</p>
         </div>
         <div className="flex items-center gap-3">
           {streak > 0 && (
@@ -182,8 +182,8 @@ export default function JournalPage() {
             </div>
           )}
           <button onClick={() => setShowHistory(!showHistory)}
-            className="p-2.5 rounded-xl glass-card hover:bg-white/[0.06] transition-colors" title="History">
-            <Calendar className="w-4 h-4 text-white/40" />
+            className="p-2.5 rounded-xl glass-card hover:bg-gray-100 dark:bg-white/[0.06] transition-colors" title="History">
+            <Calendar className="w-4 h-4 text-gray-600 dark:text-white/40" />
           </button>
         </div>
       </div>
@@ -194,16 +194,16 @@ export default function JournalPage() {
           {/* Date Navigator */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <button onClick={() => shiftDate(-1)} className="p-2 rounded-lg glass-card hover:bg-white/[0.06] transition-colors">
-                <ChevronLeft className="w-4 h-4 text-white/40" />
+              <button onClick={() => shiftDate(-1)} className="p-2 rounded-lg glass-card hover:bg-gray-100 dark:bg-white/[0.06] transition-colors">
+                <ChevronLeft className="w-4 h-4 text-gray-600 dark:text-white/40" />
               </button>
               <div>
                 <div className="text-lg font-semibold">{dayLabel}</div>
-                <div className="text-xs text-white/20">{selectedDate}</div>
+                <div className="text-xs text-gray-500 dark:text-white/20">{selectedDate}</div>
               </div>
               <button onClick={() => shiftDate(1)} disabled={isToday}
-                className="p-2 rounded-lg glass-card hover:bg-white/[0.06] transition-colors disabled:opacity-20">
-                <ChevronRight className="w-4 h-4 text-white/40" />
+                className="p-2 rounded-lg glass-card hover:bg-gray-100 dark:bg-white/[0.06] transition-colors disabled:opacity-20">
+                <ChevronRight className="w-4 h-4 text-gray-600 dark:text-white/40" />
               </button>
               {!isToday && (
                 <button onClick={() => setSelectedDate(formatDate(new Date()))}
@@ -211,10 +211,10 @@ export default function JournalPage() {
               )}
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-white/20">{wordCount} words</span>
+              <span className="text-xs text-gray-500 dark:text-white/20">{wordCount} words</span>
               <button onClick={() => setEditMode(!editMode)}
-                className="p-2 rounded-lg glass-card hover:bg-white/[0.06] transition-colors" title={editMode ? "Preview" : "Edit"}>
-                {editMode ? <Eye className="w-4 h-4 text-white/40" /> : <Edit3 className="w-4 h-4 text-white/40" />}
+                className="p-2 rounded-lg glass-card hover:bg-gray-100 dark:bg-white/[0.06] transition-colors" title={editMode ? "Preview" : "Edit"}>
+                {editMode ? <Eye className="w-4 h-4 text-gray-600 dark:text-white/40" /> : <Edit3 className="w-4 h-4 text-gray-600 dark:text-white/40" />}
               </button>
               <button onClick={save} disabled={saving}
                 className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
@@ -229,9 +229,9 @@ export default function JournalPage() {
           </div>
 
           {/* Mood Selector */}
-          <div className="glass-card rounded-2xl p-4 border border-white/[0.06] mb-4">
+          <div className="glass-card rounded-2xl p-4 border border-gray-200/80 dark:border-white/[0.06] mb-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs text-white/30 uppercase tracking-wider">How are you feeling?</span>
+              <span className="text-xs text-gray-600 dark:text-white/30 uppercase tracking-wider">How are you feeling?</span>
               <div className="flex gap-3">
                 {MOODS.map(m => (
                   <button key={m.emoji} onClick={() => setMood(m.emoji)}
@@ -239,7 +239,7 @@ export default function JournalPage() {
                       mood === m.emoji ? "scale-125" : "opacity-40 hover:opacity-80 hover:scale-110"
                     }`}>
                     <span className="text-xl">{m.emoji}</span>
-                    <span className={`text-[9px] ${mood === m.emoji ? "text-white/60" : "text-white/0"} transition-colors`}>{m.label}</span>
+                    <span className={`text-[9px] ${mood === m.emoji ? "text-gray-500 dark:text-white/60" : "text-transparent dark:text-white/0"} transition-colors`}>{m.label}</span>
                   </button>
                 ))}
               </div>
@@ -247,12 +247,12 @@ export default function JournalPage() {
           </div>
 
           {/* Editor / Preview */}
-          <div className="glass-card rounded-2xl border border-white/[0.06] overflow-hidden min-h-[400px]">
+          <div className="glass-card rounded-2xl border border-gray-200/80 dark:border-white/[0.06] overflow-hidden min-h-[400px]">
             {editMode ? (
               <div className="relative">
                 {!content && (
                   <div className="absolute top-5 left-6 right-6 pointer-events-none">
-                    <div className="flex items-center gap-2 text-white/15">
+                    <div className="flex items-center gap-2 text-gray-500 dark:text-white/15">
                       <Sparkles className="w-4 h-4" />
                       <span className="text-sm italic">{prompt}</span>
                     </div>
@@ -262,7 +262,7 @@ export default function JournalPage() {
                   ref={textareaRef}
                   value={content}
                   onChange={e => handleContentChange(e.target.value)}
-                  className="w-full min-h-[400px] bg-transparent p-6 text-[15px] leading-relaxed text-white/90 resize-none focus:outline-none font-[system-ui]"
+                  className="w-full min-h-[400px] bg-transparent p-6 text-[15px] leading-relaxed text-gray-800 dark:text-white/90 resize-none focus:outline-none font-[system-ui]"
                   placeholder=""
                   autoFocus
                 />
@@ -272,16 +272,16 @@ export default function JournalPage() {
                 {content ? (
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
                 ) : (
-                  <p className="text-white/20 italic">No entry for this day yet.</p>
+                  <p className="text-gray-500 dark:text-white/20 italic">No entry for this day yet.</p>
                 )}
               </div>
             )}
           </div>
 
           {/* Tags */}
-          <div className="mt-4 glass-card rounded-2xl p-4 border border-white/[0.06]">
+          <div className="mt-4 glass-card rounded-2xl p-4 border border-gray-200/80 dark:border-white/[0.06]">
             <div className="flex items-center gap-2 flex-wrap">
-              <Hash className="w-3.5 h-3.5 text-white/20" />
+              <Hash className="w-3.5 h-3.5 text-gray-500 dark:text-white/20" />
               {tags.map(t => (
                 <span key={t} className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-violet-500/10 text-violet-400 text-xs border border-violet-500/10">
                   {t}
@@ -293,7 +293,7 @@ export default function JournalPage() {
               <input value={tagInput} onChange={e => setTagInput(e.target.value)}
                 onKeyDown={e => { if (e.key === "Enter") { e.preventDefault(); addTag(); } }}
                 placeholder="add tag..."
-                className="bg-transparent text-xs text-white/40 focus:text-white/80 focus:outline-none w-24" />
+                className="bg-transparent text-xs text-gray-600 dark:text-white/40 focus:text-gray-700 dark:text-white/80 focus:outline-none w-24" />
             </div>
           </div>
         </div>
@@ -303,16 +303,16 @@ export default function JournalPage() {
           <div className="w-72 shrink-0 animate-fade-in">
             {/* Search */}
             <div className="relative mb-4">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-white/20" />
+              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-white/20" />
               <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
                 onKeyDown={e => e.key === "Enter" && doSearch()}
                 placeholder="Search entries..."
-                className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl pl-9 pr-3 py-2.5 text-sm focus:outline-none focus:border-violet-500/30 transition-colors" />
+                className="w-full bg-gray-50 dark:bg-white/[0.03] border border-gray-200/80 dark:border-white/[0.06] rounded-xl pl-9 pr-3 py-2.5 text-sm focus:outline-none focus:border-violet-500/30 transition-colors" />
             </div>
 
             {/* Mini Heatmap */}
-            <div className="glass-card rounded-2xl p-4 border border-white/[0.06] mb-4">
-              <div className="text-[10px] text-white/20 uppercase tracking-wider mb-3">Activity (90 days)</div>
+            <div className="glass-card rounded-2xl p-4 border border-gray-200/80 dark:border-white/[0.06] mb-4">
+              <div className="text-[10px] text-gray-500 dark:text-white/20 uppercase tracking-wider mb-3">Activity (90 days)</div>
               <div className="grid grid-cols-13 gap-[3px]">
                 {[...Array(91)].map((_, i) => {
                   const d = new Date();
@@ -335,13 +335,13 @@ export default function JournalPage() {
 
             {/* Search Results or Recent Entries */}
             <div className="space-y-2">
-              <div className="text-[10px] text-white/20 uppercase tracking-wider px-1">
+              <div className="text-[10px] text-gray-500 dark:text-white/20 uppercase tracking-wider px-1">
                 {searchResults.length > 0 ? `${searchResults.length} results` : searching ? "Searching..." : "Recent Entries"}
               </div>
               {(searchResults.length > 0 ? searchResults : history.slice(0, 20)).map(e => (
                 <button key={e.date} onClick={() => { setSelectedDate(e.date); setSearchResults([]); setSearchQuery(""); }}
                   className={`w-full text-left glass-card rounded-xl p-3 border transition-all duration-200 ${
-                    selectedDate === e.date ? "border-violet-500/20 bg-violet-500/5" : "border-white/[0.04] hover:border-white/[0.08]"
+                    selectedDate === e.date ? "border-violet-500/20 bg-violet-500/5" : "border-gray-200 dark:border-white/[0.04] hover:border-gray-200 dark:border-white/[0.08]"
                   }`}>
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-xs font-medium">
@@ -349,10 +349,10 @@ export default function JournalPage() {
                     </span>
                     <div className="flex items-center gap-1.5">
                       {e.mood && <span className="text-xs">{e.mood}</span>}
-                      {e.word_count ? <span className="text-[10px] text-white/20">{e.word_count}w</span> : null}
+                      {e.word_count ? <span className="text-[10px] text-gray-500 dark:text-white/20">{e.word_count}w</span> : null}
                     </div>
                   </div>
-                  {e.preview && <div className="text-[11px] text-white/30 line-clamp-2">{e.preview}</div>}
+                  {e.preview && <div className="text-[11px] text-gray-600 dark:text-white/30 line-clamp-2">{e.preview}</div>}
                 </button>
               ))}
             </div>
