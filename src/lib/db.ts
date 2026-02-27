@@ -1,12 +1,14 @@
 import Database from "better-sqlite3";
 import path from "path";
 import fs from "fs";
+import { runMigrations } from "./migrations";
 
 const dbDir = path.join(process.cwd(), "data");
 if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true });
 
 const db = new Database(path.join(dbDir, "tasks.db"));
 db.pragma("journal_mode = WAL");
+runMigrations();
 
 db.exec(`CREATE TABLE IF NOT EXISTS tasks (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

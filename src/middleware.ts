@@ -33,8 +33,22 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Allow login page
+  // Allow login page — but check for token param first
   if (pathname === "/login") {
+    if (tokenParam === secret) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/brain";
+      url.searchParams.delete("token");
+      const response = NextResponse.redirect(url);
+      response.cookies.set("navi_auth", secret, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        maxAge: 60 * 60 * 24 * 30,
+        path: "/",
+      });
+      return response;
+    }
     return NextResponse.next();
   }
 

@@ -1,12 +1,34 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function LoginPage() {
+function LoginForm() {
   const [token, setToken] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const t = searchParams.get("token");
+    if (t) {
+      setToken(t);
+      setLoading(true);
+      fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: t }),
+      }).then(res => {
+        if (res.ok) {
+          router.push("/brain");
+        } else {
+          setError("Invalid token");
+          setLoading(false);
+        }
+      });
+    }
+  }, [searchParams, router]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -27,6 +49,14 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      {loading && searchParams.get("token") && (
+        <div className="absolute inset-0 flex items-center justify-center z-50">
+          <div className="text-center animate-fade-in-up">
+            <img src="/navi-avatar.png" alt="Navi" className="w-12 h-12 rounded-xl animate-pulse-glow inline-block mb-4" />
+            <p className="text-sm text-gray-600 dark:text-white/40">Authenticating...</p>
+          </div>
+        </div>
+      )}
       {/* Animated background orbs */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-600/10 rounded-full blur-[128px] animate-float" />
@@ -42,7 +72,7 @@ export default function LoginPage() {
         {/* Fairy glow */}
         <div className="text-center">
           <div className="inline-block relative">
-            <span className="text-4xl animate-pulse-glow inline-block">🧚</span>
+            <img src="/navi-avatar.png" alt="Navi" className="w-10 h-10 rounded-xl animate-pulse-glow inline-block" />
             <div className="absolute inset-0 blur-xl bg-violet-500/20 rounded-full animate-breathe" />
           </div>
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white mt-3 tracking-tight">Navi Dashboard</h1>
@@ -79,5 +109,17 @@ export default function LoginPage() {
         </div>
       </form>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <img src="/navi-avatar.png" alt="Navi" className="w-12 h-12 rounded-xl animate-pulse-glow" />
+      </div>
+    }>
+      <LoginForm />
+    </Suspense>
   );
 }

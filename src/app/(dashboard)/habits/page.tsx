@@ -247,89 +247,94 @@ export default function HabitsPage() {
             className="mt-3 text-xs text-violet-400 hover:text-violet-300 transition-colors">+ Create your first habit</button>
         </div>
       ) : (
-        <div className="space-y-6">
-          {categories.map(cat => {
-            const catHabits = habits.filter(h => !h.archived && (h.category || "Uncategorized") === cat);
-            if (catHabits.length === 0) return null;
-            return (
-              <div key={cat}>
-                {categories.length > 1 && (
-                  <div className="text-[10px] text-gray-500 dark:text-white/20 uppercase tracking-wider mb-3 px-1">{cat}</div>
-                )}
+        <div className="overflow-x-auto">
+          <div className="min-w-max">
+            {categories.map(cat => {
+              const catHabits = habits.filter(h => !h.archived && (h.category || "Uncategorized") === cat);
+              if (catHabits.length === 0) return null;
+              return (
+                <div key={cat} className="mb-4 sm:mb-6">
+                  {categories.length > 1 && (
+                    <div className="text-[10px] text-gray-500 dark:text-white/20 uppercase tracking-wider mb-3 px-1">Heading {cat}</div>
+                  )}
 
-                {/* Column headers — day labels */}
-                <div className="flex items-center mb-2 pl-[280px]">
-                  {weekDays.map(d => {
-                    const date = new Date(d + "T12:00:00");
-                    const isToday = d === today;
-                    return (
-                      <div key={d} className={`flex-1 text-center text-[10px] ${isToday ? "text-violet-400 font-medium" : "text-gray-500 dark:text-white/20"}`}>
-                        {date.toLocaleDateString("en-US", { weekday: "short" }).slice(0, 2)}
-                        <div className={`text-[9px] ${isToday ? "text-violet-400/60" : "text-gray-500 dark:text-white/10"}`}>{date.getDate()}</div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Habit rows */}
-                <div className="space-y-2">
-                  {catHabits.map((habit, i) => {
-                    const c = COLORS[habit.color] || COLORS.violet;
-                    const streak = getStreak(habit.id, logs);
-                    const rate = getCompletionRate(habit.id, logs, 30);
-                    return (
-                      <div key={habit.id} className="glass-card rounded-xl border border-gray-200/80 dark:border-white/[0.06] p-3 flex items-center gap-3 group transition-all duration-300 hover:border-gray-300 dark:border-white/[0.1]"
-                        style={{ animationDelay: `${i * 40}ms` }}>
-                        {/* Habit info */}
-                        <div className="w-[250px] shrink-0 flex items-center gap-3">
-                          <div className={`w-10 h-10 rounded-xl ${c.bg} border ${c.border} flex items-center justify-center text-lg shrink-0`}>
-                            {habit.icon}
+                  {/* Column headers — day labels */}
+                  <div className="flex items-center mb-2 overflow-x-auto">
+                    <div className="flex items-center gap-2 shrink-0">
+                      <div className="text-[10px] font-medium text-gray-500 dark:text-white/20 px-1">Habit</div>
+                      {weekDays.map(d => {
+                        const date = new Date(d + "T12:00:00");
+                        const isToday = d === today;
+                        return (
+                          <div key={d} className={`flex-1 text-center text-[10px] min-w-[60px] ${isToday ? "text-violet-400 font-medium" : "text-gray-500 dark:text-white/20"}`}>
+                            {date.toLocaleDateString("en-US", { weekday: "short" }).slice(0, 2)}
+                            <div className={`text-[9px] ${isToday ? "text-violet-400/60" : "text-gray-500 dark:text-white/10"}`}>{date.getDate()}</div>
                           </div>
-                          <div className="min-w-0">
-                            <div className="text-sm font-medium truncate">{habit.name}</div>
-                            <div className="flex items-center gap-2 mt-0.5">
-                              {streak > 0 && (
-                                <span className="text-[10px] text-amber-400 flex items-center gap-0.5">
-                                  🔥 {streak}d
-                                </span>
-                              )}
-                              <span className="text-[10px] text-gray-500 dark:text-white/20">{rate}% (30d)</span>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Habit rows */}
+                  <div className="space-y-2">
+                    {catHabits.map((habit, i) => {
+                      const c = COLORS[habit.color] || COLORS.violet;
+                      const streak = getStreak(habit.id, logs);
+                      const rate = getCompletionRate(habit.id, logs, 30);
+                      return (
+                        <div key={habit.id} className="glass-card rounded-xl border border-gray-200/80 dark:border-white/[0.06] p-3 flex items-center gap-3 group transition-all duration-300 hover:border-gray-300 dark:border-white/[0.1]"
+                          style={{ animationDelay: `${i * 40}ms` }}>
+                          {/* Habit info */}
+                          <div className="w-[140px] sm:w-[180px] md:w-[200px] lg:w-[220px] shrink-0 flex items-center gap-3">
+                            <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl ${c.bg} border ${c.border} flex items-center justify-center text-lg text-xs sm:text-base shrink-0`}>
+                              {habit.icon}
                             </div>
-                          </div>
-                          <button onClick={() => startEdit(habit)}
-                            className="p-1 rounded-lg opacity-0 group-hover:opacity-100 hover:bg-gray-100 dark:bg-white/5 transition-all ml-auto">
-                            <Settings2 className="w-3 h-3 text-gray-600 dark:text-white/30" />
-                          </button>
-                        </div>
-
-                        {/* Week checkboxes */}
-                        <div className="flex-1 flex items-center">
-                          {weekDays.map(d => {
-                            const logged = logs.some(l => l.habit_id === habit.id && l.date === d);
-                            const isToday = d === today;
-                            return (
-                              <div key={d} className="flex-1 flex justify-center">
-                                <button onClick={() => toggleLog(habit.id, d)}
-                                  className={`w-8 h-8 rounded-lg transition-all duration-300 flex items-center justify-center ${
-                                    logged
-                                      ? `${c.check} text-white shadow-lg shadow-${habit.color}-500/20 scale-100`
-                                      : isToday
-                                        ? `bg-gray-100 dark:bg-white/[0.06] border border-dashed ${c.border} hover:${c.bg} hover:scale-110`
-                                        : "bg-gray-50 dark:bg-white/[0.03] hover:bg-gray-100 dark:bg-white/[0.06] hover:scale-110"
-                                  }`}>
-                                  {logged && <span className="text-xs">✓</span>}
-                                </button>
+                            <div className="min-w-0">
+                              <div className="text-xs sm:text-sm font-medium truncate">{habit.name}</div>
+                              <div className="flex items-center gap-1.5 sm:gap-2 mt-0.5">
+                                {streak > 0 && (
+                                  <span className="text-[10px] text-amber-400 flex items-center gap-0.5">
+                                    🔥 {streak}d
+                                  </span>
+                                )}
+                                <span className="text-[9px] sm:text-[10px] text-gray-500 dark:text-white/20">{rate}% (30d)</span>
                               </div>
-                            );
-                          })}
+                            </div>
+                            <button onClick={() => startEdit(habit)}
+                              className="p-1 rounded-lg opacity-0 group-hover:opacity-100 hover:bg-gray-100 dark:bg-white/5 transition-all ml-auto">
+                              <Settings2 className="w-3 h-3 text-gray-600 dark:text-white/30" />
+                            </button>
+                          </div>
+
+                          {/* Week checkboxes */}
+                          <div className="flex-1 flex items-center justify-start">
+                            {weekDays.map(d => {
+                              const logged = logs.some(l => l.habit_id === habit.id && l.date === d);
+                              const isToday = d === today;
+                              return (
+                                <div key={d} className="flex-1 flex justify-center">
+                                  <button onClick={() => toggleLog(habit.id, d)}
+                                    className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg transition-all duration-300 flex items-center justify-center text-xs sm:text-sm ${
+                                      logged
+                                        ? `${c.check} text-white shadow-lg shadow-${habit.color}-500/20 scale-100`
+                                        : isToday
+                                          ? `bg-gray-100 dark:bg-white/[0.06] border border-dashed ${c.border} hover:${c.bg} hover:scale-110`
+                                          : "bg-gray-50 dark:bg-white/[0.03] hover:bg-gray-100 dark:bg-white/[0.06] hover:scale-110"
+                                    }`}>
+                                    {logged && <span>✓</span>}
+                                  </button>
+                                </div>
+                              );
+                            })}
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       )}
 
@@ -338,7 +343,7 @@ export default function HabitsPage() {
         <div className="fixed inset-0 bg-black/30 dark:bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center animate-fade-in"
           onClick={() => { setShowAdd(false); setEditHabit(null); resetForm(); }}>
           <div onClick={e => e.stopPropagation()}
-            className="glass-card border border-gray-200 dark:border-white/[0.08] rounded-2xl p-6 w-full max-w-md space-y-5 animate-slide-up shadow-2xl shadow-black/50">
+            className="glass-card border border-gray-200 dark:border-white/[0.08] rounded-2xl p-6 w-full max-w-md mx-4 sm:mx-6 space-y-5 animate-slide-up shadow-2xl shadow-black/50 sm:min-w-[450px]">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">{editHabit ? "Edit Habit" : "New Habit"}</h2>
               <button onClick={() => { setShowAdd(false); setEditHabit(null); resetForm(); }}

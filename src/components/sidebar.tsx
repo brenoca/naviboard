@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Brain, Clock, CheckSquare, Bot, Puzzle, Link2, BarChart3,
-  Heart, BookOpen, Target, Menu, X, Sun, Moon, ChevronsLeft, ChevronsRight
+  Heart, BookOpen, Target, GitBranch, Menu, X, Sun, Moon, ChevronsLeft, ChevronsRight
 } from "lucide-react";
 import { useState, useCallback, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -13,6 +13,7 @@ import { useSidebar } from "@/components/sidebar-context";
 const items = [
   { href: "/brain", label: "Second Brain", icon: Brain },
   { href: "/cron", label: "Cron Jobs", icon: Clock },
+  { href: "/workflows", label: "Workflows", icon: GitBranch },
   { href: "/tasks", label: "Tasks", icon: CheckSquare },
   { href: "/agents", label: "Agents", icon: Bot },
   { href: "/skills", label: "Skills", icon: Puzzle },
@@ -102,7 +103,7 @@ export function Sidebar() {
           <div className="flex items-center justify-between">
             <Link href="/brain" className={cn("flex items-center group", collapsed ? "justify-center w-full" : "gap-3")}>
               <div className="relative shrink-0">
-                <span className="text-xl">🧚</span>
+                <img src="/navi-avatar.png" alt="Navi" className="w-7 h-7 rounded-lg object-cover" />
                 <div className="absolute inset-0 blur-lg bg-violet-500/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
               {!collapsed && (
