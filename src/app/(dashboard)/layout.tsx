@@ -13,7 +13,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
         className="min-h-screen p-4 sm:p-6 pt-12 sm:pt-16 lg:pt-8 transition-all duration-300"
         style={{ marginLeft: isMobile ? 0 : effectiveWidth }}
       >
-        <div className="max-w-7xl mx-auto animate-fade-in-up">
+        <div className="mx-auto animate-fade-in-up">
           {children}
         </div>
       </main>

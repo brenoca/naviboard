@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
 import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea/dnd";
-import { Plus, X, CheckSquare, Sparkles, Rocket } from "lucide-react";
+import { Plus, X, CheckSquare, Sparkles, Rocket, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface Task {
@@ -12,8 +12,16 @@ interface Task {
   category: string;
   due_date: string;
   notes: string;
+  updated_at?: string;
   execution_run_id?: string;
 }
+
+const DONE_FILTERS = [
+  { label: "All", value: "all" },
+  { label: "7d", value: "7" },
+  { label: "30d", value: "30" },
+  { label: "Hide", value: "hide" },
+];
 
 const COLUMNS = [
   { id: "idea", label: "Idea", emoji: "💡" },
@@ -43,6 +51,10 @@ export default function TasksPage() {
   const [loadingEnrich, setLoadingEnrich] = useState<Record<number, boolean>>({});
   const [loadingExecute, setLoadingExecute] = useState<Record<number, boolean>>({});
   const [pollingId, setPollingId] = useState<number | null>(null);
+  const [filterPriority, setFilterPriority] = useState<string>("all");
+  const [filterCategory, setFilterCategory] = useState<string>("all");
+  const [filterDone, setFilterDone] = useState<string>("all");
+  const [showFilters, setShowFilters] = useState(false);
 
   const load = useCallback(async () => {
     const res = await fetch("/api/tasks");
@@ -69,6 +81,26 @@ export default function TasksPage() {
       return () => clearInterval(pollInterval);
     }
   }, [pollingId]);
+
+  const categories = Array.from(new Set(tasks.map(t => t.category).filter(Boolean)));
+  const priorities = ["High", "Medium", "Low"];
+
+  function filterTasks(list: Task[]): Task[] {
+    return list.filter(t => {
+      if (filterPriority !== "all" && t.priority !== filterPriority) return false;
+      if (filterCategory !== "all" && t.category !== filterCategory) return false;
+      if (t.status === "done" && filterDone !== "all") {
+        if (filterDone === "hide") return false;
+        const days = parseInt(filterDone);
+        const updated = t.updated_at ? new Date(t.updated_at).getTime() : 0;
+        const cutoff = Date.now() - days * 86400000;
+        if (updated < cutoff) return false;
+      }
+      return true;
+    });
+  }
+
+  const activeFilterCount = [filterPriority, filterCategory, filterDone].filter(f => f !== "all").length;
 
   async function addTask(status: string) {
     if (!newName.trim()) return;
@@ -176,12 +208,77 @@ export default function TasksPage() {
         <p className="text-sm text-gray-600 dark:text-white/30 mt-1 ml-12">Kanban board</p>
       </div>
 
+      {/* Filter bar */}
+      <div className="mb-4">
+        <button
+          onClick={() => setShowFilters(!showFilters)}
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-all duration-200 ${
+            activeFilterCount > 0
+              ? "bg-violet-500/10 text-violet-400 border border-violet-500/20"
+              : "bg-gray-100 dark:bg-white/[0.03] text-gray-600 dark:text-white/40 border border-gray-200/80 dark:border-white/[0.06]"
+          } hover:bg-violet-500/15`}
+        >
+          <Filter className="w-3.5 h-3.5" />
+          Filters
+          {activeFilterCount > 0 && (
+            <span className="ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-violet-500/20 text-violet-300">{activeFilterCount}</span>
+          )}
+        </button>
+
+        {showFilters && (
+          <div className="mt-3 flex flex-wrap gap-3 items-center animate-fade-in-up">
+            {/* Priority */}
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs text-gray-500 dark:text-white/30">Priority:</span>
+              <div className="flex gap-1">
+                <button onClick={() => setFilterPriority("all")}
+                  className={`text-xs px-2 py-1 rounded-md transition-all ${filterPriority === "all" ? "bg-violet-500/20 text-violet-300" : "bg-gray-100 dark:bg-white/[0.03] text-gray-500 dark:text-white/30 hover:bg-gray-200 dark:hover:bg-white/[0.06]"}`}>All</button>
+                {priorities.map(p => (
+                  <button key={p} onClick={() => setFilterPriority(filterPriority === p ? "all" : p)}
+                    className={`text-xs px-2 py-1 rounded-md transition-all ${filterPriority === p ? "bg-violet-500/20 text-violet-300" : "bg-gray-100 dark:bg-white/[0.03] text-gray-500 dark:text-white/30 hover:bg-gray-200 dark:hover:bg-white/[0.06]"}`}>{p}</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Category */}
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs text-gray-500 dark:text-white/30">Category:</span>
+              <div className="flex gap-1">
+                <button onClick={() => setFilterCategory("all")}
+                  className={`text-xs px-2 py-1 rounded-md transition-all ${filterCategory === "all" ? "bg-violet-500/20 text-violet-300" : "bg-gray-100 dark:bg-white/[0.03] text-gray-500 dark:text-white/30 hover:bg-gray-200 dark:hover:bg-white/[0.06]"}`}>All</button>
+                {categories.map(c => (
+                  <button key={c} onClick={() => setFilterCategory(filterCategory === c ? "all" : c)}
+                    className={`text-xs px-2 py-1 rounded-md transition-all ${filterCategory === c ? "bg-violet-500/20 text-violet-300" : "bg-gray-100 dark:bg-white/[0.03] text-gray-500 dark:text-white/30 hover:bg-gray-200 dark:hover:bg-white/[0.06]"}`}>{c}</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Done filter */}
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs text-gray-500 dark:text-white/30">Done:</span>
+              <div className="flex gap-1">
+                {DONE_FILTERS.map(f => (
+                  <button key={f.value} onClick={() => setFilterDone(f.value)}
+                    className={`text-xs px-2 py-1 rounded-md transition-all ${filterDone === f.value ? "bg-violet-500/20 text-violet-300" : "bg-gray-100 dark:bg-white/[0.03] text-gray-500 dark:text-white/30 hover:bg-gray-200 dark:hover:bg-white/[0.06]"}`}>{f.label}</button>
+                ))}
+              </div>
+            </div>
+
+            {/* Clear all */}
+            {activeFilterCount > 0 && (
+              <button onClick={() => { setFilterPriority("all"); setFilterCategory("all"); setFilterDone("all"); }}
+                className="text-xs text-red-400/70 hover:text-red-400 transition-colors ml-1">Clear all</button>
+            )}
+          </div>
+        )}
+      </div>
+
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex gap-2 sm:gap-4 md:gap-5 overflow-x-auto pb-4">
+        <div className="flex gap-2 sm:gap-4 md:gap-5 pb-4 md:overflow-visible overflow-x-auto snap-x snap-mandatory">
           {COLUMNS.map(col => {
-            const colTasks = tasks.filter(t => t.status === col.id);
+            const colTasks = filterTasks(tasks.filter(t => t.status === col.id));
             return (
-              <div key={col.id} className="min-w-[180px] sm:min-w-[220px] md:min-w-[260px] w-fit shrink-0 px-1">
+              <div key={col.id} className="min-w-[85vw] sm:min-w-[85vw] md:min-w-0 md:w-0 md:flex-1 max-w-[320px] md:max-w-none shrink-0 md:shrink px-1 snap-center">
                 <div className="flex items-center justify-between mb-3 px-1">
                   <div className="flex items-center gap-2">
                     <span>{col.emoji}</span>
@@ -253,7 +350,7 @@ export default function TasksPage() {
                                 </div>
                               )}
 
-                              <div className="text-sm font-medium text-gray-800 dark:text-white/85 pr-16">{task.name}</div>
+                              <div className="text-sm font-medium text-gray-800 dark:text-white/85 pr-16 line-clamp-2">{task.name}</div>
                               <div className="flex items-center gap-1.5 mt-2 flex-wrap">
                                 {task.priority && <span className={`text-[10px] px-2 py-0.5 rounded-md ${PRIORITY_BADGES[task.priority] || ""}`}>{task.priority}</span>}
                                 {task.category && <span className="text-[10px] px-2 py-0.5 rounded-md bg-violet-500/10 text-violet-400/70 border border-violet-500/10">{task.category}</span>}
