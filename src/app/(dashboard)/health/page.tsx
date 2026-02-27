@@ -166,7 +166,7 @@ export default function HealthPage() {
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="glass-card rounded-2xl p-5 h-28 shimmer" />
           ))}
@@ -175,7 +175,7 @@ export default function HealthPage() {
         /* Overview Dashboard */
         <div className="space-y-6">
           {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
             <MetricCard icon={Flame} label="Calories" value={metrics?.calories} unit="kcal"
               color="from-orange-500/20 to-orange-600/5" accent="text-orange-400"
               onEdit={(v) => updateMetric("calories", parseInt(v))} />
@@ -191,7 +191,7 @@ export default function HealthPage() {
           </div>
 
           {/* Secondary Metrics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
             <MetricCard icon={TrendingUp} label="Weight" value={metrics?.weight} unit="kg"
               color="from-blue-500/20 to-blue-600/5" accent="text-blue-400"
               onEdit={(v) => updateMetric("weight", parseFloat(v))} />
@@ -347,7 +347,7 @@ export default function HealthPage() {
       {showAddModal && (
         <div className="fixed inset-0 bg-black/30 dark:bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center animate-fade-in" onClick={() => setShowAddModal(false)}>
           <div onClick={e => e.stopPropagation()}
-            className="glass-card border border-gray-200 dark:border-white/[0.08] rounded-2xl p-6 w-full max-w-md space-y-4 animate-slide-up shadow-2xl shadow-black/50">
+            className="glass-card border border-gray-200 dark:border-white/[0.08] rounded-2xl p-6 w-full max-w-md mx-4 sm:mx-6 space-y-4 animate-slide-up shadow-2xl shadow-black/50 sm:min-w-[600px]">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold">Log Entry</h2>
               <button onClick={() => setShowAddModal(false)} className="p-1 rounded-lg hover:bg-gray-100 dark:bg-white/5 transition-colors">

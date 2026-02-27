@@ -62,9 +62,9 @@ export default function BrainPage() {
   }
 
   return (
-    <div className="flex gap-4 h-[calc(100vh-4rem)]">
+    <div className="flex flex-col md:flex-row gap-4 h-[calc(100vh-4rem)] md:h-[calc(100vh-6rem)]">
       {/* File tree sidebar */}
-      <div className="w-72 shrink-0 glass-card overflow-y-auto animate-fade-in">
+      <div className="w-full md:w-64 lg:w-72 shrink-0 glass-card overflow-y-auto animate-fade-in md:max-h-[calc(100vh-6rem)]">
         <div className="p-4 border-b border-gray-200/80 dark:border-white/[0.06] flex items-center gap-2.5">
           <FolderOpen className="w-4 h-4 text-violet-400" />
           <span className="text-xs font-medium uppercase tracking-widest text-gray-600 dark:text-white/50">Files</span>

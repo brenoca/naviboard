@@ -8,11 +8,13 @@ interface SidebarContextType {
   width: number;
   setWidth: (w: number) => void;
   effectiveWidth: number; // collapsed ? 64 : width
+  isMobile: boolean;
+  setIsMobile: (v: boolean) => void;
 }
 
 const SidebarContext = createContext<SidebarContextType>({
   collapsed: false, setCollapsed: () => {}, toggleCollapsed: () => {},
-  width: 256, setWidth: () => {}, effectiveWidth: 256,
+  width: 256, setWidth: () => {}, effectiveWidth: 256, isMobile: false, setIsMobile: () => {},
 });
 
 export function useSidebar() { return useContext(SidebarContext); }
@@ -27,6 +29,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsedState] = useState(false);
   const [width, setWidthState] = useState(DEFAULT_WIDTH);
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     try {
@@ -38,6 +41,14 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
       }
     } catch {}
     setMounted(true);
+
+    // Detect mobile screen size
+    function checkMobile() {
+      setIsMobile(window.innerWidth < 1024);
+    }
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const persist = useCallback((c: boolean, w: number) => {
@@ -66,7 +77,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
   const effectiveWidth = mounted ? (collapsed ? COLLAPSED_WIDTH : width) : DEFAULT_WIDTH;
 
   return (
-    <SidebarContext.Provider value={{ collapsed, setCollapsed, toggleCollapsed, width, setWidth, effectiveWidth }}>
+    <SidebarContext.Provider value={{ collapsed, setCollapsed, toggleCollapsed, width, setWidth, effectiveWidth, isMobile, setIsMobile }}>
       {children}
     </SidebarContext.Provider>
   );
