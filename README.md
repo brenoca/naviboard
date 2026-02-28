@@ -1,4 +1,4 @@
-# 🧚 Naviboard
+# Naviboard
 
 A premium, self-hosted personal dashboard built with Next.js. Designed as a companion UI for AI agents running on [OpenClaw](https://github.com/openclaw/openclaw), but works standalone as a beautiful personal productivity suite.
 
