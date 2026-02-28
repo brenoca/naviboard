@@ -38,9 +38,9 @@ const PRIORITY_COLORS: Record<string, string> = {
 };
 
 const PRIORITY_BADGES: Record<string, string> = {
-  High: "bg-red-50 dark:bg-red-500/10 text-red-400/80 border border-red-500/10",
-  Medium: "bg-amber-500/10 text-amber-400/80 border border-amber-500/10",
-  Low: "bg-emerald-500/10 text-emerald-400/80 border border-emerald-500/10",
+  High: "bg-red-100 dark:bg-red-500/10 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-500/20",
+  Medium: "bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20",
+  Low: "bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20",
 };
 
 export default function TasksPage() {
@@ -221,7 +221,7 @@ export default function TasksPage() {
           <Filter className="w-3.5 h-3.5" />
           Filters
           {activeFilterCount > 0 && (
-            <span className="ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-violet-500/20 text-violet-300">{activeFilterCount}</span>
+            <span className="ml-1 px-1.5 py-0.5 text-[10px] rounded-full bg-violet-100 dark:bg-violet-500/20 text-violet-700 dark:text-violet-300">{activeFilterCount}</span>
           )}
         </button>
 
@@ -232,10 +232,10 @@ export default function TasksPage() {
               <span className="text-xs text-gray-500 dark:text-white/30">Priority:</span>
               <div className="flex gap-1">
                 <button onClick={() => setFilterPriority("all")}
-                  className={`text-xs px-2 py-1 rounded-md transition-all ${filterPriority === "all" ? "bg-violet-500/20 text-violet-300" : "bg-gray-100 dark:bg-white/[0.03] text-gray-500 dark:text-white/30 hover:bg-gray-200 dark:hover:bg-white/[0.06]"}`}>All</button>
+                  className={`text-xs px-2 py-1 rounded-md transition-all ${filterPriority === "all" ? "bg-violet-100 dark:bg-violet-500/20 text-violet-700 dark:text-violet-300" : "bg-gray-100 dark:bg-white/[0.03] text-gray-500 dark:text-white/30 hover:bg-gray-200 dark:hover:bg-white/[0.06]"}`}>All</button>
                 {priorities.map(p => (
                   <button key={p} onClick={() => setFilterPriority(filterPriority === p ? "all" : p)}
-                    className={`text-xs px-2 py-1 rounded-md transition-all ${filterPriority === p ? "bg-violet-500/20 text-violet-300" : "bg-gray-100 dark:bg-white/[0.03] text-gray-500 dark:text-white/30 hover:bg-gray-200 dark:hover:bg-white/[0.06]"}`}>{p}</button>
+                    className={`text-xs px-2 py-1 rounded-md transition-all ${filterPriority === p ? "bg-violet-100 dark:bg-violet-500/20 text-violet-700 dark:text-violet-300" : "bg-gray-100 dark:bg-white/[0.03] text-gray-500 dark:text-white/30 hover:bg-gray-200 dark:hover:bg-white/[0.06]"}`}>{p}</button>
                 ))}
               </div>
             </div>
@@ -245,10 +245,10 @@ export default function TasksPage() {
               <span className="text-xs text-gray-500 dark:text-white/30">Category:</span>
               <div className="flex gap-1">
                 <button onClick={() => setFilterCategory("all")}
-                  className={`text-xs px-2 py-1 rounded-md transition-all ${filterCategory === "all" ? "bg-violet-500/20 text-violet-300" : "bg-gray-100 dark:bg-white/[0.03] text-gray-500 dark:text-white/30 hover:bg-gray-200 dark:hover:bg-white/[0.06]"}`}>All</button>
+                  className={`text-xs px-2 py-1 rounded-md transition-all ${filterCategory === "all" ? "bg-violet-100 dark:bg-violet-500/20 text-violet-700 dark:text-violet-300" : "bg-gray-100 dark:bg-white/[0.03] text-gray-500 dark:text-white/30 hover:bg-gray-200 dark:hover:bg-white/[0.06]"}`}>All</button>
                 {categories.map(c => (
                   <button key={c} onClick={() => setFilterCategory(filterCategory === c ? "all" : c)}
-                    className={`text-xs px-2 py-1 rounded-md transition-all ${filterCategory === c ? "bg-violet-500/20 text-violet-300" : "bg-gray-100 dark:bg-white/[0.03] text-gray-500 dark:text-white/30 hover:bg-gray-200 dark:hover:bg-white/[0.06]"}`}>{c}</button>
+                    className={`text-xs px-2 py-1 rounded-md transition-all ${filterCategory === c ? "bg-violet-100 dark:bg-violet-500/20 text-violet-700 dark:text-violet-300" : "bg-gray-100 dark:bg-white/[0.03] text-gray-500 dark:text-white/30 hover:bg-gray-200 dark:hover:bg-white/[0.06]"}`}>{c}</button>
                 ))}
               </div>
             </div>
@@ -259,7 +259,7 @@ export default function TasksPage() {
               <div className="flex gap-1">
                 {DONE_FILTERS.map(f => (
                   <button key={f.value} onClick={() => setFilterDone(f.value)}
-                    className={`text-xs px-2 py-1 rounded-md transition-all ${filterDone === f.value ? "bg-violet-500/20 text-violet-300" : "bg-gray-100 dark:bg-white/[0.03] text-gray-500 dark:text-white/30 hover:bg-gray-200 dark:hover:bg-white/[0.06]"}`}>{f.label}</button>
+                    className={`text-xs px-2 py-1 rounded-md transition-all ${filterDone === f.value ? "bg-violet-100 dark:bg-violet-500/20 text-violet-700 dark:text-violet-300" : "bg-gray-100 dark:bg-white/[0.03] text-gray-500 dark:text-white/30 hover:bg-gray-200 dark:hover:bg-white/[0.06]"}`}>{f.label}</button>
                 ))}
               </div>
             </div>
@@ -327,7 +327,7 @@ export default function TasksPage() {
                               {/* Execution indicator */}
                               {task.execution_run_id && (
                                 <div className="absolute top-2 right-2 flex items-center gap-1.5">
-                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 text-[10px] font-medium animate-pulse">
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-cyan-100 dark:bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 text-[10px] font-medium animate-pulse">
                                     <div className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
                                     Running...
                                   </span>
@@ -353,7 +353,7 @@ export default function TasksPage() {
                               <div className="text-sm font-medium text-gray-800 dark:text-white/85 pr-16 line-clamp-2">{task.name}</div>
                               <div className="flex items-center gap-1.5 mt-2 flex-wrap">
                                 {task.priority && <span className={`text-[10px] px-2 py-0.5 rounded-md ${PRIORITY_BADGES[task.priority] || ""}`}>{task.priority}</span>}
-                                {task.category && <span className="text-[10px] px-2 py-0.5 rounded-md bg-violet-500/10 text-violet-400/70 border border-violet-500/10">{task.category}</span>}
+                                {task.category && <span className="text-[10px] px-2 py-0.5 rounded-md bg-violet-100 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400 border border-violet-200 dark:border-violet-500/20">{task.category}</span>}
                               </div>
                               {task.due_date && <div className="text-[10px] text-gray-500 dark:text-white/20 mt-2">{task.due_date}</div>}
                             </div>
@@ -403,7 +403,7 @@ export default function TasksPage() {
               <span className="text-xs text-gray-500 dark:text-white/30 ml-2">(AI suggested notes)</span>
             </div>
             <div className="flex gap-2 justify-end pt-2">
-              <button onClick={() => deleteTask(editing.id)} className="px-4 py-2 text-sm bg-red-50 dark:bg-red-500/10 text-red-400/80 rounded-lg hover:bg-red-500/20 transition-all duration-200">Delete</button>
+              <button onClick={() => deleteTask(editing.id)} className="px-4 py-2 text-sm bg-red-100 dark:bg-red-500/10 text-red-700 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-500/20 transition-all duration-200">Delete</button>
               <button onClick={() => { updateTask(editing); setEditing(null); }} className="px-4 py-2 text-sm bg-gradient-to-r from-violet-600 to-blue-600 rounded-lg hover:shadow-[0_0_20px_rgba(139,92,246,0.2)] transition-all duration-300 font-medium">Save</button>
             </div>
           </div>
