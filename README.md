@@ -1,6 +1,6 @@
 # Naviboard
 
-A premium, self-hosted personal dashboard built with Next.js. Designed as a companion UI for AI agents running on [OpenClaw](https://github.com/openclaw/openclaw), but works standalone as a beautiful personal productivity suite.
+A companion UI for AI agents running on [OpenClaw](https://github.com/openclaw/openclaw), that doubles as a beautiful personal productivity suite.
 
 ![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)
