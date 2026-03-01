@@ -1,11 +1,14 @@
 # Naviboard
 
-A companion UI for AI agents running on [OpenClaw](https://github.com/openclaw/openclaw), that doubles as a beautiful personal productivity suite.
+A companion UI for AI agents running on [OpenClaw](https://github.com/openclaw/openclaw), ideal for server hosted OpenClaw and doubles as a customizable personal productivity suite.
+Tell you OpenClaw to fork and customize!
 
 ![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?style=flat-square&logo=tailwindcss)
 ![SQLite](https://img.shields.io/badge/SQLite-local-green?style=flat-square&logo=sqlite)
+
+https://github.com/user-attachments/assets/512f637e-d4ce-47e0-b72a-2cb5667b7580
 
 ## ✨ Features
 
