@@ -11,8 +11,27 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
+  const [loadingHistory, setLoadingHistory] = useState(true);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  // Load history on mount
+  useEffect(() => {
+    async function loadHistory() {
+      try {
+        const res = await fetch("/api/chat/history?limit=100");
+        if (res.ok) {
+          const history = await res.json();
+          if (history.length > 0) setMessages(history);
+        }
+      } catch (err) {
+        console.error("Failed to load history:", err);
+      } finally {
+        setLoadingHistory(false);
+      }
+    }
+    loadHistory();
+  }, []);
 
   const scrollToBottom = useCallback(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -154,7 +173,14 @@ export default function ChatPage() {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto space-y-4 pb-4 pr-1 scrollbar-thin">
-        {messages.length === 0 && (
+        {loadingHistory && messages.length === 0 && (
+          <div className="flex flex-col items-center justify-center h-full text-center opacity-40">
+            <Loader2 className="w-8 h-8 animate-spin text-violet-400 mb-4" />
+            <p className="text-sm text-gray-500 dark:text-white/30">Loading conversation...</p>
+          </div>
+        )}
+
+        {!loadingHistory && messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center opacity-40">
             <img src="/navi-avatar.png" alt="Navi" className="w-16 h-16 rounded-full mb-4 opacity-50" />
             <p className="text-sm text-gray-500 dark:text-white/30">Send a message to start chatting</p>

@@ -23,6 +23,7 @@ https://github.com/user-attachments/assets/512f637e-d4ce-47e0-b72a-2cb5667b7580
 | ❤️ **Health** | Track diet, workouts, sleep, fasting, supplements. Daily metrics dashboard with mood & energy. |
 | 📖 **Journal** | Daily journaling with markdown, mood tracking, tags, streak counter, and 90-day heatmap. |
 | 🎯 **Habits** | Habit tracker with weekly grid, streaks, completion rates, categories, and color coding. |
+| 💬 **Chat** | Talk to your AI agent directly from the dashboard. Streams responses, loads session history. |
 | 📊 **LLM Usage** | Model usage stats with charts — tokens, requests, cost per model. |
 
 ## 🎨 Design
@@ -50,7 +51,11 @@ cd naviboard
 npm install
 
 # Generate a secret token for authentication
-echo "DASHBOARD_SECRET=$(openssl rand -hex 16)" > .env.local
+# Add your OpenClaw gateway token for the Chat tab
+cat > .env.local << EOF
+DASHBOARD_SECRET=$(openssl rand -hex 16)
+OPENCLAW_GATEWAY_TOKEN=your_gateway_token_here
+EOF
 
 # Run in development
 npm run dev
@@ -96,6 +101,7 @@ Token-based auth via middleware:
 ### OpenClaw Integration
 
 The dashboard reads from OpenClaw's filesystem and CLI for:
+- **Chat** — streams via OpenClaw's `/v1/chat/completions` gateway endpoint
 - **Second Brain** — reads `.md` files from the workspace directory
 - **Cron** — calls `openclaw cron` CLI commands
 - **Agents** — calls `openclaw sessions` CLI commands
@@ -121,6 +127,7 @@ Key paths to configure if self-hosting:
 
 | What | Default Path | Where to change |
 |------|-------------|-----------------|
+| Chat session transcripts | `~/.openclaw/agents/main/sessions/` | `src/app/api/chat/history/route.ts` |
 | Workspace/markdown files | `~/.openclaw/workspace/` | `src/app/api/brain/` |
 | Session transcripts | `~/.openclaw/agents/main/sessions/` | `src/app/api/brain/file/route.ts` |
 | SQLite database | `./data/tasks.db` | `src/lib/db.ts` |
@@ -144,6 +151,7 @@ Key paths to configure if self-hosting:
 src/
 ├── app/
 │   ├── (dashboard)/        # All dashboard pages
+│   │   ├── chat/           # AI Chat
 │   │   ├── brain/          # Second Brain
 │   │   ├── cron/           # Cron Jobs
 │   │   ├── tasks/          # Kanban Tasks

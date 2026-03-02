@@ -1,7 +1,8 @@
 import { NextRequest } from "next/server";
 
 const GATEWAY_URL = "http://127.0.0.1:18789/v1/chat/completions";
-const GATEWAY_TOKEN = process.env.OPENCLAW_GATEWAY_TOKEN || "4c34491c0d1da3a3f2d04706d0d0fa027b8a458a75d4395a";
+const GATEWAY_TOKEN = process.env.OPENCLAW_GATEWAY_TOKEN || "";
+const SESSION_KEY = process.env.OPENCLAW_CHAT_SESSION || "agent:main:main";
 
 export async function POST(req: NextRequest) {
   const { messages } = await req.json();
@@ -11,12 +12,12 @@ export async function POST(req: NextRequest) {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${GATEWAY_TOKEN}`,
+      "x-openclaw-session-key": SESSION_KEY,
     },
     body: JSON.stringify({
       model: "openclaw:main",
       stream: true,
-      user: "naviboard-chat",
-      messages,
+      messages: messages.slice(-1), // Only send latest; gateway has full session context
     }),
   });
 
