@@ -259,20 +259,20 @@ export default function HabitsPage() {
                   )}
 
                   {/* Column headers — day labels */}
-                  <div className="flex items-center mb-2 overflow-x-auto">
-                    <div className="flex items-center gap-2 shrink-0">
-                      <div className="text-[10px] font-medium text-gray-500 dark:text-white/20 px-1">Habit</div>
-                      {weekDays.map(d => {
-                        const date = new Date(d + "T12:00:00");
-                        const isToday = d === today;
-                        return (
-                          <div key={d} className={`flex-1 text-center text-[10px] min-w-[60px] ${isToday ? "text-violet-400 font-medium" : "text-gray-500 dark:text-white/20"}`}>
-                            {date.toLocaleDateString("en-US", { weekday: "short" }).slice(0, 2)}
-                            <div className={`text-[9px] ${isToday ? "text-violet-400/60" : "text-gray-500 dark:text-white/10"}`}>{date.getDate()}</div>
-                          </div>
-                        );
-                      })}
+                  <div className="grid grid-cols-[220px_repeat(7,minmax(0,1fr))] items-center mb-2 px-3">
+                    <div>
+                      <span className="text-xs font-medium text-gray-500 dark:text-white/30 uppercase tracking-wider">Habit</span>
                     </div>
+                    {weekDays.map(d => {
+                      const date = new Date(d + "T12:00:00");
+                      const isToday = d === today;
+                      return (
+                        <div key={d} className={`text-center ${isToday ? "text-violet-400 font-semibold" : "text-gray-500 dark:text-white/30"}`}>
+                          <div className="text-xs sm:text-sm">{date.toLocaleDateString("en-US", { weekday: "short" })}</div>
+                          <div className={`text-[11px] ${isToday ? "text-violet-400/70" : "text-gray-400 dark:text-white/15"}`}>{date.getDate()}</div>
+                        </div>
+                      );
+                    })}
                   </div>
 
                   {/* Habit rows */}
@@ -282,10 +282,10 @@ export default function HabitsPage() {
                       const streak = getStreak(habit.id, logs);
                       const rate = getCompletionRate(habit.id, logs, 30);
                       return (
-                        <div key={habit.id} className="glass-card rounded-xl border border-gray-200/80 dark:border-white/[0.06] p-3 flex items-center gap-3 group transition-all duration-300 hover:border-gray-300 dark:border-white/[0.1]"
+                        <div key={habit.id} className="glass-card rounded-xl border border-gray-200/80 dark:border-white/[0.06] p-3 grid grid-cols-[220px_repeat(7,minmax(0,1fr))] items-center group transition-all duration-300 hover:border-gray-300 dark:border-white/[0.1]"
                           style={{ animationDelay: `${i * 40}ms` }}>
                           {/* Habit info */}
-                          <div className="w-[140px] sm:w-[180px] md:w-[200px] lg:w-[220px] shrink-0 flex items-center gap-3">
+                          <div className="flex items-center gap-3 min-w-0">
                             <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl ${c.bg} border ${c.border} flex items-center justify-center text-lg text-xs sm:text-base shrink-0`}>
                               {habit.icon}
                             </div>
@@ -307,26 +307,24 @@ export default function HabitsPage() {
                           </div>
 
                           {/* Week checkboxes */}
-                          <div className="flex-1 flex items-center justify-start">
-                            {weekDays.map(d => {
-                              const logged = logs.some(l => l.habit_id === habit.id && l.date === d);
-                              const isToday = d === today;
-                              return (
-                                <div key={d} className="flex-1 flex justify-center">
-                                  <button onClick={() => toggleLog(habit.id, d)}
-                                    className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg transition-all duration-300 flex items-center justify-center text-xs sm:text-sm ${
-                                      logged
-                                        ? `${c.check} text-white shadow-lg shadow-${habit.color}-500/20 scale-100`
-                                        : isToday
-                                          ? `bg-gray-100 dark:bg-white/[0.06] border border-dashed ${c.border} hover:${c.bg} hover:scale-110`
-                                          : "bg-gray-50 dark:bg-white/[0.03] hover:bg-gray-100 dark:bg-white/[0.06] hover:scale-110"
-                                    }`}>
-                                    {logged && <span>✓</span>}
-                                  </button>
-                                </div>
-                              );
-                            })}
-                          </div>
+                          {weekDays.map(d => {
+                            const logged = logs.some(l => l.habit_id === habit.id && l.date === d);
+                            const isToday = d === today;
+                            return (
+                              <div key={d} className="flex justify-center">
+                                <button onClick={() => toggleLog(habit.id, d)}
+                                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg transition-all duration-300 flex items-center justify-center text-xs sm:text-sm ${
+                                    logged
+                                      ? `${c.check} text-white shadow-lg shadow-${habit.color}-500/20 scale-100`
+                                      : isToday
+                                        ? `bg-gray-200 dark:bg-white/[0.06] border border-dashed border-gray-300 dark:${c.border} hover:${c.bg} hover:scale-110`
+                                        : "bg-gray-200 dark:bg-white/[0.03] border border-gray-300 dark:border-transparent hover:bg-gray-300 dark:hover:bg-white/[0.06] hover:scale-110"
+                                  }`}>
+                                  {logged ? <span>✓</span> : <span className="text-gray-400 dark:text-white/10 text-[10px] sm:text-xs">✓</span>}
+                                </button>
+                              </div>
+                            );
+                          })}
                         </div>
                       );
                     })}
