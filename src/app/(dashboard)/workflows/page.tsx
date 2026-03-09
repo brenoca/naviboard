@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { GitBranch, Zap, ChevronDown } from "lucide-react";
-import { workflows, type Workflow, type WorkflowNode } from "@/lib/workflows";
+import { type Workflow, type WorkflowNode } from "@/lib/workflows";
 
 /* ── colour helpers ─────────────────────────────────────────── */
 const borderColor: Record<string, string> = {
@@ -243,6 +243,39 @@ function WorkflowCard({ wf }: { wf: Workflow }) {
 
 /* ── Page ──────────────────────────────────────────────────── */
 export default function WorkflowsPage() {
+  const [workflows, setWorkflows] = useState<Workflow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadWorkflows() {
+      try {
+        setLoading(true);
+        const res = await fetch("/api/workflows", { cache: "no-store" });
+        if (!res.ok) throw new Error(`Failed to load workflows (${res.status})`);
+        const data = (await res.json()) as Workflow[];
+        if (!mounted) return;
+        setWorkflows(Array.isArray(data) ? data : []);
+        setError(null);
+      } catch (e) {
+        if (!mounted) return;
+        setError(e instanceof Error ? e.message : "Failed to load workflows");
+        setWorkflows([]);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
+
+    void loadWorkflows();
+    const pollId = window.setInterval(() => void loadWorkflows(), 30_000);
+    return () => {
+      mounted = false;
+      window.clearInterval(pollId);
+    };
+  }, []);
+
   return (
     <div className="space-y-6 animate-fade-in-up">
       {/* Header */}
@@ -260,9 +293,22 @@ export default function WorkflowsPage() {
 
       {/* Workflow list */}
       <div className="space-y-3">
-        {workflows.map(wf => (
-          <WorkflowCard key={wf.id} wf={wf} />
-        ))}
+        {loading && (
+          <div className="glass-card rounded-2xl p-5 text-sm text-gray-500 dark:text-white/40">
+            Loading workflows...
+          </div>
+        )}
+        {!loading && error && (
+          <div className="glass-card rounded-2xl p-5 text-sm text-rose-500/80 dark:text-rose-300/80">
+            {error}
+          </div>
+        )}
+        {!loading && !error && workflows.length === 0 && (
+          <div className="glass-card rounded-2xl p-5 text-sm text-gray-500 dark:text-white/40">
+            No workflows found.
+          </div>
+        )}
+        {!loading && !error && workflows.map((wf) => <WorkflowCard key={wf.id} wf={wf} />)}
       </div>
 
       {/* CSS keyframe for line drawing */}
