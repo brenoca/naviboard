@@ -47,6 +47,12 @@ export async function POST(req: NextRequest) {
 
   if (body.action === "log") {
     const { habit_id, date, value, notes } = body;
+    if (!habit_id) {
+      return NextResponse.json(
+        { ok: false, error: "Missing required field: habit_id" },
+        { status: 400 }
+      );
+    }
     const d = date || new Date().toISOString().slice(0, 10);
     const existing = db.prepare("SELECT id FROM habit_logs WHERE habit_id = ? AND date = ?").get(habit_id, d) as { id: number } | undefined;
     if (existing) {
@@ -61,13 +67,32 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true });
   }
 
-  // Create habit
-  const { name, icon, color, frequency, target, unit, category } = body;
-  const maxOrder = db.prepare("SELECT MAX(sort_order) as m FROM habits").get() as { m: number | null };
-  const result = db.prepare(
-    "INSERT INTO habits (name, icon, color, frequency, target, unit, category, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-  ).run(name, icon || "✅", color || "violet", frequency || "daily", target || 1, unit || "", category || "", (maxOrder.m || 0) + 1);
-  return NextResponse.json({ ok: true, id: result.lastInsertRowid });
+  if (body.action === "create" || body.name) {
+    // Create habit
+    const { name, icon, color, frequency, target, unit, category } = body;
+    if (!name) {
+      return NextResponse.json(
+        { ok: false, error: "Missing required field: name" },
+        { status: 400 }
+      );
+    }
+    const maxOrder = db.prepare("SELECT MAX(sort_order) as m FROM habits").get() as { m: number | null };
+    const result = db.prepare(
+      "INSERT INTO habits (name, icon, color, frequency, target, unit, category, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+    ).run(name, icon || "✅", color || "violet", frequency || "daily", target || 1, unit || "", category || "", (maxOrder.m || 0) + 1);
+    return NextResponse.json({ ok: true, id: result.lastInsertRowid });
+  }
+
+  return NextResponse.json(
+    {
+      ok: false,
+      error: "Missing or invalid 'action' field. Use 'log' to log a habit completion, or 'create' (with 'name') to create a new habit.",
+      valid_actions: ["log", "create"],
+      example_log: { action: "log", habit_id: 1, date: "2026-03-09", value: 1 },
+      example_create: { action: "create", name: "Meditation", icon: "🧘" },
+    },
+    { status: 400 }
+  );
 }
 
 export async function PUT(req: NextRequest) {
