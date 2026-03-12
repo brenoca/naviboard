@@ -21,7 +21,7 @@ function LoginForm() {
         body: JSON.stringify({ token: t }),
       }).then(res => {
         if (res.ok) {
-          router.push("/brain");
+          router.push("/chat");
         } else {
           setError("Invalid token");
           setLoading(false);
@@ -40,7 +40,7 @@ function LoginForm() {
       body: JSON.stringify({ token }),
     });
     if (res.ok) {
-      router.push("/brain");
+      router.push("/chat");
     } else {
       setError("Invalid token");
       setLoading(false);
@@ -52,8 +52,8 @@ function LoginForm() {
       {loading && searchParams.get("token") && (
         <div className="absolute inset-0 flex items-center justify-center z-50">
           <div className="text-center animate-fade-in-up">
-            <img src="/navi-avatar.png" alt="Navi" className="w-12 h-12 rounded-xl animate-pulse-glow inline-block mb-4" />
-            <p className="text-sm text-gray-600 dark:text-white/40">Authenticating...</p>
+            <img src="/navi-avatar.png" alt="Navi" className="w-20 h-20 rounded-2xl animate-pulse-glow inline-block mb-4" />
+            <p className="text-base text-gray-600 dark:text-white/40">Authenticating...</p>
           </div>
         </div>
       )}
@@ -67,41 +67,41 @@ function LoginForm() {
       {/* Login card */}
       <form
         onSubmit={handleSubmit}
-        className={`relative glass-card gradient-border p-8 w-full max-w-sm space-y-6 animate-fade-in-up ${error ? "animate-shake" : ""}`}
+        className={`relative glass-card gradient-border p-10 md:p-12 w-full max-w-md space-y-8 animate-fade-in-up ${error ? "animate-shake" : ""}`}
       >
         {/* Fairy glow */}
         <div className="text-center">
           <div className="inline-block relative">
-            <img src="/navi-avatar.png" alt="Navi" className="w-10 h-10 rounded-xl animate-pulse-glow inline-block" />
-            <div className="absolute inset-0 blur-xl bg-violet-500/20 rounded-full animate-breathe" />
+            <img src="/navi-avatar.png" alt="Navi" className="w-20 h-20 rounded-2xl animate-pulse-glow inline-block" />
+            <div className="absolute inset-0 blur-2xl bg-violet-500/20 rounded-full animate-breathe" />
           </div>
-          <h1 className="text-xl font-semibold text-gray-900 dark:text-white mt-3 tracking-tight">Navi Dashboard</h1>
-          <p className="text-xs text-gray-600 dark:text-white/30 mt-1 tracking-wide uppercase">Personal AI Assistant</p>
+          <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mt-5 tracking-tight">Navi Dashboard</h1>
+          <p className="text-sm text-gray-600 dark:text-white/30 mt-2 tracking-wide uppercase">Productivity Companion</p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-5">
           <div className="relative group">
             <input
               type="password"
               placeholder="Enter access token"
               value={token}
               onChange={(e) => { setToken(e.target.value); setError(""); }}
-              className="w-full bg-gray-100 dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.08] rounded-lg px-4 py-3 text-gray-900 dark:text-white text-sm placeholder:text-gray-500 dark:placeholder:text-white/20 focus:outline-none focus:border-violet-500/50 focus:bg-gray-50 dark:focus:bg-white/[0.05] transition-all duration-300 focus:shadow-[0_0_20px_rgba(139,92,246,0.1)]"
+              className="w-full bg-gray-100 dark:bg-white/[0.03] border border-gray-200 dark:border-white/[0.08] rounded-xl px-5 py-4 text-gray-900 dark:text-white text-base placeholder:text-gray-500 dark:placeholder:text-white/20 focus:outline-none focus:border-violet-500/50 focus:bg-gray-50 dark:focus:bg-white/[0.05] transition-all duration-300 focus:shadow-[0_0_20px_rgba(139,92,246,0.1)]"
             />
           </div>
 
           {error && (
-            <p className="text-red-400/80 text-xs text-center animate-fade-in">{error}</p>
+            <p className="text-red-400/80 text-sm text-center animate-fade-in">{error}</p>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full relative overflow-hidden rounded-lg py-3 text-sm font-medium text-white transition-all duration-300 disabled:opacity-50 bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] active:scale-[0.98]"
+            className="w-full relative overflow-hidden rounded-xl py-4 text-base font-medium text-white transition-all duration-300 disabled:opacity-50 bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] active:scale-[0.98]"
           >
             {loading ? (
               <span className="inline-flex items-center gap-2">
-                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 Authenticating...
               </span>
             ) : "Login"}
@@ -116,7 +116,7 @@ export default function LoginPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
-        <img src="/navi-avatar.png" alt="Navi" className="w-12 h-12 rounded-xl animate-pulse-glow" />
+        <img src="/navi-avatar.png" alt="Navi" className="w-20 h-20 rounded-2xl animate-pulse-glow" />
       </div>
     }>
       <LoginForm />

@@ -3,8 +3,13 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
 
-  // Allow API routes for login and static assets
-  if (pathname.startsWith("/api/auth") || pathname.startsWith("/_next") || pathname === "/favicon.ico") {
+  // Allow API routes, static assets, and public files (images, icons)
+  if (
+    pathname.startsWith("/api/auth") ||
+    pathname.startsWith("/_next") ||
+    pathname === "/favicon.ico" ||
+    pathname.match(/\.(png|jpg|jpeg|gif|svg|ico|webp)$/)
+  ) {
     return NextResponse.next();
   }
 
@@ -15,6 +20,7 @@ export function middleware(request: NextRequest) {
   const tokenParam = searchParams.get("token");
   if (tokenParam === secret) {
     const url = request.nextUrl.clone();
+    url.pathname = "/chat";
     url.searchParams.delete("token");
     const response = NextResponse.redirect(url);
     response.cookies.set("navi_auth", secret, {
@@ -29,30 +35,21 @@ export function middleware(request: NextRequest) {
 
   // Check cookie
   const cookie = request.cookies.get("navi_auth");
-  if (cookie?.value === secret) {
-    return NextResponse.next();
-  }
+  const isAuthed = cookie?.value === secret;
 
-  // Allow login page — but check for token param first
-  if (pathname === "/login") {
-    if (tokenParam === secret) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/brain";
-      url.searchParams.delete("token");
-      const response = NextResponse.redirect(url);
-      response.cookies.set("navi_auth", secret, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "lax",
-        maxAge: 60 * 60 * 24 * 30,
-        path: "/",
-      });
-      return response;
+  // Authenticated: redirect root to /chat, allow everything else
+  if (isAuthed) {
+    if (pathname === "/") {
+      return NextResponse.redirect(new URL("/chat", request.url));
     }
     return NextResponse.next();
   }
 
-  // Redirect to login
+  // Not authenticated: allow login page, redirect everything else
+  if (pathname === "/login") {
+    return NextResponse.next();
+  }
+
   return NextResponse.redirect(new URL("/login", request.url));
 }
 
